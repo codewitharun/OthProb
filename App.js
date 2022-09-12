@@ -5,8 +5,10 @@ import {View, Text} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 // import Login from './Src/Login';
-import PhoneSignIn from './Src/Login';
-import Dashboard from './Src/Dashboard';
+import Elogin from './Src/EmailLogin';
+import PhoneSignIn from './Src/PhoneLog';
+import Volunteer from './Src/Volunteer';
+import Users from './Src/Viewusers';
 
 function HomeScreen() {
   return (
@@ -24,9 +26,11 @@ function App() {
       <Stack.Navigator
         initialRouteName="Login"
         screenOptions={{headerShown: false}}>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Login" component={PhoneSignIn} />
-        <Stack.Screen name="Dashboard" component={Dashboard} />
+        {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
+        <Stack.Screen name="Login" component={Elogin} />
+        <Stack.Screen name="PLogin" component={PhoneSignIn} />
+        <Stack.Screen name="Volunteer" component={Volunteer} />
+        <Stack.Screen name="Users" component={Users} />
         {/* <Stack.Screen name="Dashboard" component={Dashboard} /> */}
       </Stack.Navigator>
     </NavigationContainer>

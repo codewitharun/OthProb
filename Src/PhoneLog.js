@@ -22,7 +22,7 @@ const PhoneSignIn = props => {
     try {
       var res = await confirm.confirm(code);
       console.log('Signup Done', res);
-      props.navigation.navigate('Dashboard');
+      props.navigation.navigate('Volunteer');
     } catch (error) {
       console.log('Invalid code.');
     }
@@ -31,32 +31,56 @@ const PhoneSignIn = props => {
   if (!confirm) {
     return (
       <SafeAreaView>
-        <TextInput
-          placeholder="Enter Phone Number here"
-          onChangeText={txt => setNumber(txt)}
-          maxLength={10}
+        <View
           style={{
-            color: 'black',
-            backgroundColor: 'green',
-            paddingHorizontal: 20,
-          }}
-        />
-        <Button
-          title="Phone Number Sign In"
-          onPress={() => signInWithPhoneNumber()}
-        />
+            backgroundColor: 'lightblue',
+            height: '100%',
+            justifyContent: 'center',
+            // alignSelf: 'center',
+          }}>
+          <TextInput
+            placeholder="Enter Phone Number here"
+            onChangeText={txt => setNumber(txt)}
+            placeholderTextColor={'black'}
+            maxLength={10}
+            style={{
+              color: 'black',
+              backgroundColor: 'lightpink',
+              height: 60,
+              paddingHorizontal: 20,
+            }}
+          />
+          <View style={{top: 20}}>
+            <Button
+              title="Phone Number Sign In"
+              onPress={() => signInWithPhoneNumber()}
+            />
+          </View>
+        </View>
       </SafeAreaView>
     );
   }
 
   return (
     <SafeAreaView>
-      <View>
+      <View
+        style={{
+          backgroundColor: 'lightblue',
+          height: '100%',
+          justifyContent: 'center',
+          // alignSelf: 'center',
+        }}>
         <TextInput
           value={code}
           onChangeText={text => setCode(text)}
           maxLength={6}
-          style={{color: 'black', backgroundColor: 'green'}}
+          type="number"
+          style={{
+            color: 'black',
+            backgroundColor: 'lightpink',
+            height: 60,
+            paddingHorizontal: 20,
+          }}
         />
         <Button title="Confirm Code" onPress={() => confirmCode()} />
       </View>

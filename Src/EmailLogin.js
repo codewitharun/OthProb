@@ -11,11 +11,18 @@ import {
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import React, {useState, useEffect} from 'react';
+import firestore from '@react-native-firebase/firestore';
+import {firebase} from '@react-native-firebase/auth';
 import {AppleButton} from '@invertase/react-native-apple-authentication';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
-const Dashboard = props => {
+const Elogin = props => {
   const [userr, setUser] = useState('');
   const [password, setPassword] = useState('');
+  const [userss, setUsers] = useState('name');
+  const [userName, setUserName] = useState('name');
+  const [userEmail, setUserEmail] = useState('email');
+  const [userPhone, setUserPhone] = useState('phone');
+  const [userMessage, setUserMessage] = useState('message');
   async function onGoogleButtonPress() {
     // Get the users ID token
     const {idToken, user} = await GoogleSignin.signIn();
@@ -27,10 +34,16 @@ const Dashboard = props => {
     console.log(idToken);
     console.log(user);
     alert(user.name, user.email);
-
+    props.navigation.navigate('Users');
     // console.log();
     // Sign-in the user with the credential
     console.log(googleCredential);
+    firestore().collection('Users').doc(auth.uid).set({
+      // name: ,
+      email: userr,
+      phone: userPhone,
+    });
+
     return auth().signInWithCredential(googleCredential);
   }
 
@@ -40,6 +53,14 @@ const Dashboard = props => {
       webClientId:
         '671370434624-f1baeqciu3hgveu3ff54m6h5sat3u7l0.apps.googleusercontent.com',
     });
+    firestore()
+      .collection('Users')
+      .doc(auth.EmailAuthProvider.credential().token)
+      .set({
+        // name: ,
+        email: userr,
+        phone: userPhone,
+      });
   }, []);
   const signOut = () => {
     auth()
@@ -51,10 +72,11 @@ const Dashboard = props => {
   };
 
   const SignUp = () => {
-    auth()
+    const res = auth()
       .createUserWithEmailAndPassword(userr, password)
+
       .then(() => {
-        console.log('User account created & signed in!');
+        console.log('User account created & signed in!' + {res});
       })
       .catch(error => {
         if (error.code === 'auth/email-already-in-use') {
@@ -66,6 +88,19 @@ const Dashboard = props => {
         }
 
         console.error(error);
+        // async function onButtonPress() {
+        //   const auth = firebase.auth().currentUser;
+        //   const users = await firestore().collection('Users').get();
+        //   const user = await firestore()
+        //     .collection('Users')
+        //     .doc(auth.uid)
+        //     .get();
+
+        //   const set =
+        //     // console.log(users);
+        //     console.log(user);
+        //   props.navigation.navigate('Users');
+        // }
       });
   };
   const Login = () => {
@@ -74,6 +109,7 @@ const Dashboard = props => {
       .then(res => {
         console.log('signed in!');
         console.log(res);
+        props.navigation.navigate('Users');
       })
       .catch(error => {
         if (error.code === 'auth/email-already-in-use') {
@@ -87,6 +123,7 @@ const Dashboard = props => {
         console.error(error);
       });
   };
+
   return (
     <SafeAreaView>
       <View style={{height: '100%', width: '100%'}}>
@@ -125,6 +162,7 @@ const Dashboard = props => {
                 Username
               </Text>
               <TextInput
+                autoCapitalize={false}
                 placeholder="dummyemail@gmail.com"
                 keyboardType="email-address"
                 onChangeText={txt => {
@@ -192,7 +230,8 @@ const Dashboard = props => {
               </Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate('Volunteer')}>
             <View>
               <Text style={{color: Platform == 'android' ? 'black' : 'black'}}>
                 Forget Password ?
@@ -289,6 +328,6 @@ const Dashboard = props => {
   );
 };
 
-export default Dashboard;
+export default Elogin;
 
 const styles = StyleSheet.create({});
